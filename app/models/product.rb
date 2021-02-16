@@ -1,4 +1,6 @@
+# frozen_string_literal: true
+
 class Product < ApplicationRecord
-    validates_presence_of :title, :ingredients, :price
-    validates :price, presence: true, numericality: {only_integer: true, greater_than: 0}
+  validates_presence_of :name, :ingredients, :price
+  validates :price, presence: true, numericality: { only_integer: true }
 end

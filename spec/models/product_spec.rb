@@ -1,20 +1,20 @@
 require 'rails_helper'
 RSpec.describe Product, type: :model do
   describe "is expected to have db colums" do
-    it {is_expected.to have_db_column :title}
+    it {is_expected.to have_db_column :name}
     it {is_expected.to have_db_column :ingredients}
     it {is_expected.to have_db_column :price}
   end
 
   describe "is expected to have validation" do
-    it {is_expected.to validate_presence_of :title}
+    it {is_expected.to validate_presence_of :name}
     it {is_expected.to validate_presence_of :ingredients}
     it {is_expected.to validate_presence_of :price}
   end
 
   describe "is expected to have price as an integer greter then 0" do
     it { is_expected.to validate_presence_of(:price) }
-    it { is_expected.to validate_numericality_of(:price).is_greater_than(0).only_integer }
+    it { is_expected.to validate_numericality_of(:price).only_integer }
   end
 
 

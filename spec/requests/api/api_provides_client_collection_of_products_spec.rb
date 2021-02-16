@@ -13,5 +13,9 @@ RSpec.describe "GET/api/products" do
     it "expected to return all products" do
       expect(response_json["products"].count).to eq 3
     end
+
+    it "expected to return the products names" do
+      expect(response_json["products"].first['name']).to eq 'Vesuvio'
+    end
   end
 end 
