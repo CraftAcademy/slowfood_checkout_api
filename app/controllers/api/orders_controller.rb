@@ -8,8 +8,8 @@ class Api::OrdersController < ApplicationController
     if order.persisted?
       render json: {
         message: 'This pizza was added to your order!',
-        order_id: order.id,
-        items: order.products
+        order: { id: order.id,
+                 items: order.products }
       }, status: 201
     else
       render json: { message: 'Whoops, something went wrong!' }, status: 422

@@ -23,11 +23,11 @@ RSpec.describe 'POST /api/orders', type: :request do
     end
 
     it 'is expected to return an array of the items' do
-      expect(response_json['items'].count).to eq 1
+      expect(response_json['order']['items'].count).to eq 1
     end
 
     it 'is expected to return the products of the order' do
-      expect(response_json['items'].first['name']).to eq 'Vesuvio'
+      expect(response_json['order']['items'].first['name']).to eq 'Vesuvio'
     end
   end
 end
