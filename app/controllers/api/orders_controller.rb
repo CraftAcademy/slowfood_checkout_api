@@ -12,12 +12,22 @@ class Api::OrdersController < ApplicationController
 
   def update
     order = Order.find(params['id'])
-    product = Product.find(params['product_id'])
-    new_order_item = order.items.create(product: product)
-    order_response(new_order_item, order, 200)
+    if params['confirmed']
+      confirm_order(order)
+    else
+      product = Product.find(params['product_id'])
+      new_order_item = order.items.create(product: product)
+      order_response(new_order_item, order, 200)
+    end
   end
 
   private
+
+  def confirm_order(order)
+    order.update(confirmed: true)
+    render json: { message:
+        'Your order is confirmed and will be ready to pick up in 15 min to a quarter' }
+  end
 
   def order_response(resource, order, status)
     if resource.persisted?

@@ -27,4 +27,8 @@ RSpec.describe 'PUT /api/orders/:id', type: :request do
       expect(response_json['order']['items'].count).to eq 2
     end
   end
+
+  describe 'unsuccessfully if order is confirmed' do
+    
+  end
 end
