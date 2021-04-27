@@ -3,4 +3,5 @@
 class Product < ApplicationRecord
   validates_presence_of :name, :ingredients, :price
   validates :price, presence: true, numericality: { only_integer: true }
+  has_many :order_items
 end
