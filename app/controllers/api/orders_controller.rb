@@ -2,6 +2,7 @@
 
 class Api::OrdersController < ApplicationController
   before_action :authenticate_user!
+  before_action :order_confirmed?, only: [:update]
 
   def create
     product = Product.find(params['product_id'])
@@ -11,13 +12,22 @@ class Api::OrdersController < ApplicationController
   end
 
   def update
-    order = Order.find(params['id'])
-    product = Product.find(params['product_id'])
-    new_order_item = order.items.create(product: product)
-    order_response(new_order_item, order, 200)
+    if params['confirmed']
+      confirm_order(@order)
+    else
+      product = Product.find(params['product_id'])
+      new_order_item = @order.items.create(product: product)
+      order_response(new_order_item, @order, 200)
+    end
   end
 
   private
+
+  def confirm_order(order)
+    order.update(confirmed: true)
+    render json: { message:
+        'Your order is confirmed and will be ready to pick up in 15 min to a quarter' }
+  end
 
   def order_response(resource, order, status)
     if resource.persisted?
@@ -29,5 +39,14 @@ class Api::OrdersController < ApplicationController
     else
       render json: { message: 'Whoops, something went wrong!' }, status: 422
     end
+  end
+
+  def order_confirmed?
+    @order = Order.find(params['id'])
+    return unless @order.confirmed?
+
+    render json: { message:
+      'This order has already been confirmed, to order more food, create a new order' },
+           status: 403
   end
 end
